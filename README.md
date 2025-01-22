@@ -8,10 +8,10 @@ This is a very simple timer app that was made entierly with ChatGPT as a test an
 To get started with the virtual environment and installing dependencies:
 ```bash
 # Clone reppo
-git clone https://github.com/Lerold/Timer-App.git
+git clone https://github.com/Lerold/Timer_App.git
 
 # Open folder
-cd Timer-App/app
+cd Timer_App/app
 
 # Create a virtual environment.
 python3 -m venv venv
