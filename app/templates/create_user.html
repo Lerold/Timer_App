@@ -1,0 +1,21 @@
+{% extends "base.html" %}
+{% block title %}Create User - Timer App{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6">
+    <h1>Create a New User (Only user_id=1 can see/use this)</h1>
+    <form action="{{ url_for('create_user') }}" method="post">
+      <div class="mb-3">
+        <label for="username" class="form-label">Username:</label>
+        <input id="username" name="username" type="text" required class="form-control">
+      </div>
+      <div class="mb-3">
+        <label for="password" class="form-label">Password:</label>
+        <input id="password" name="password" type="password" required class="form-control">
+      </div>
+      <button type="submit" class="btn btn-success">Create User</button>
+    </form>
+  </div>
+</div>
+{% endblock %}

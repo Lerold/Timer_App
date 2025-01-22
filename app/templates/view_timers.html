@@ -1,0 +1,35 @@
+{% extends "base.html" %}
+{% block title %}Previous Timers{% endblock %}
+
+{% block content %}
+<h1>Previously Run Timers</h1>
+<ul class="list-group">
+  {% for timer in timers %}
+    <li class="list-group-item">
+      <strong>Timer ID:</strong> {{ timer.id }}
+      - <strong>Created By:</strong> {{ timer.creator_name() }}
+      - <strong>Start Time:</strong> {{ timer.start_time }}
+      - <strong>Duration:</strong>
+      {% if timer.end_time %}
+        {{ (timer.end_time - timer.start_time).total_seconds() }} seconds
+      {% else %}
+        Still running
+      {% endif %}
+
+      <div class="mt-2">
+        {% if not timer.end_time %}
+          <form action="{{ url_for('stop_timer', timer_id=timer.id) }}" method="post" style="display:inline;">
+            <button type="submit" class="btn btn-warning btn-sm">Stop</button>
+          </form>
+        {% endif %}
+        <form action="{{ url_for('delete_timer', timer_id=timer.id) }}" method="post" style="display:inline;">
+          <button type="submit" class="btn btn-danger btn-sm">Delete</button>
+        </form>
+        <a class="btn btn-info btn-sm" href="{{ url_for('view_timer', timer_id=timer.id) }}">View</a>
+        <a class="btn btn-secondary btn-sm" href="{{ url_for('export_timer', timer_id=timer.id) }}">Export CSV</a>
+      </div>
+    </li>
+  {% endfor %}
+</ul>
+<a class="btn btn-link mt-3" href="{{ url_for('index') }}">Back to Home</a>
+{% endblock %}

@@ -31,13 +31,38 @@ flask db migrate -m "Initial migration."
 flask db upgrade
 ```
 
-### Running the Application
+### Running the Developemnt
 After installing dependencies and initializing the database, run the application with the following command:
 ```bash
 flask run
 ```
 Visit `http://127.0.0.1:5000/` in your browser to see the running app.
 
+#### Run in Production
+```bash
+gunicorn wsgi:app --bind 0.0.0.0:5000 --workers 10
+```
+
+### Manage users
+# Create a user
+```bash
+python manage_users.py create-user --username alice --password MySecret
+```
+
+# List all users
+```
+python manage_users.py list-users
+```
+
+# Rename or reset a user's password
+```
+python manage_users.py edit-user --old-username alice --new-username alice2 --new-password MyNewPass
+```
+
+# Remove a user
+```
+python manage_users.py remove-user --username alice2
+```
 
 ## Images of application
 
@@ -66,4 +91,4 @@ Timer Stopped
 
 ### Result of CSV Export
 Layout of CSV File
-![CSV Layout](/images/csv_file.png "CSV Layout")# Timer_App
+![CSV Layout](/images/csv_file.png "CSV Layout")

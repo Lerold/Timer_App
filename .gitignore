@@ -1,0 +1,5 @@
+app/venv
+app/database.sqlite3
+*DS_Store
+._*
+*.csv

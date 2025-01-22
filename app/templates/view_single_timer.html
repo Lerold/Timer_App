@@ -1,0 +1,34 @@
+{% extends "base.html" %}
+{% block title %}View Timer {{ timer.id }}{% endblock %}
+
+{% block content %}
+<div>
+  <h1>Viewing Timer {{ timer.id }}</h1>
+  <p><strong>Start Time:</strong> {{ timer.start_time }}</p>
+  <p><strong>End Time:</strong> {{ timer.end_time }}</p>
+  <p><strong>Created By:</strong> {{ timer.creator_name() }}</p>
+
+  <h2>Entries</h2>
+  <ul class="list-group">
+    {% for entry in entries %}
+      <li class="list-group-item">
+        {{ entry.current_date }} {{ entry.current_time }} - {{ entry.time_since_start }}
+        {% if entry.tram_name %}
+          - {{ entry.tram_name }} ({{ entry.direction }})
+        {% endif %}
+        <br>
+        Created By: {{ entry.creator_name() }}
+
+        {% if entry.latitude and entry.longitude %}
+          <br>
+          Location: ({{ entry.latitude }}, {{ entry.longitude }})
+          <a href="https://maps.google.com/?q={{ entry.latitude }},{{ entry.longitude }}" target="_blank">
+            View on Google Maps
+          </a>
+        {% endif %}
+      </li>
+    {% endfor %}
+  </ul>
+  <a class="btn btn-link mt-3" href="{{ url_for('previous_timers') }}">Back to List of Timers</a>
+</div>
+{% endblock %}

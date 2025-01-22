@@ -1,0 +1,99 @@
+{% extends "base.html" %}
+{% block title %}Timer {{ timer.id }}{% endblock %}
+
+{% block content %}
+<div class="row">
+  <div class="col">
+    <h1>Editing Timer {{ timer.id }}</h1>
+    <p>Start Time: {{ timer.start_time }}</p>
+    <p>Created By: {{ timer.creator_name() }}</p>
+
+    {% if not timer.end_time %}
+      <form method="post" class="mb-3">
+        <div class="mb-3">
+          <label for="tram_line_no" class="form-label">Tram Line No:</label>
+          <input type="text" id="tram_line_no" name="tram_line_no" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="tram_name" class="form-label">Tram Name:</label>
+          <input type="text" id="tram_name" name="tram_name" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="direction" class="form-label">Direction:</label>
+          <input type="text" id="direction" name="direction" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="rfid_tag" class="form-label">RFID Tag:</label>
+          <input type="text" id="rfid_tag" name="rfid_tag" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="switch_direction" class="form-label">Switch Direction:</label>
+          <input type="text" id="switch_direction" name="switch_direction" class="form-control">
+        </div>
+
+        <div class="mb-3">
+          <label for="free_notes" class="form-label">Free Notes:</label>
+          <textarea id="free_notes" name="free_notes" class="form-control"></textarea>
+        </div>
+
+        <!-- Hidden fields for GPS -->
+        <input type="hidden" id="latitude" name="latitude">
+        <input type="hidden" id="longitude" name="longitude">
+
+        <button type="submit" class="btn btn-primary">Add Entry</button>
+      </form>
+
+      <form action="{{ url_for('stop_timer', timer_id=timer.id) }}" method="post">
+        <button type="submit" class="btn btn-warning">Stop Timer</button>
+      </form>
+    {% else %}
+      <a class="btn btn-link" href="{{ url_for('previous_timers') }}">Back to List of Timers</a>
+    {% endif %}
+
+    <h2 class="mt-4">Entries</h2>
+    <ul class="list-group">
+      {% for entry in entries %}
+        <li class="list-group-item">
+          {{ entry.current_date }} {{ entry.current_time }} - {{ entry.time_since_start }}
+          {% if entry.tram_name %}
+            - {{ entry.tram_name }} ({{ entry.direction }})
+          {% endif %}
+          <br>
+          Created By: {{ entry.creator_name() }}
+
+          {% if entry.latitude and entry.longitude %}
+            <br>
+            Location: ({{ entry.latitude }}, {{ entry.longitude }})
+            <a href="https://maps.google.com/?q={{ entry.latitude }},{{ entry.longitude }}" target="_blank">
+              View on Google Maps
+            </a>
+          {% endif %}
+        </li>
+      {% endfor %}
+    </ul>
+  </div>
+</div>
+
+<script>
+  // Attempt to get the user's location for GPS
+  window.addEventListener('load', () => {
+    if (navigator.geolocation) {
+      navigator.geolocation.getCurrentPosition(
+        position => {
+          document.getElementById('latitude').value = position.coords.latitude;
+          document.getElementById('longitude').value = position.coords.longitude;
+        },
+        error => {
+          console.warn('Geolocation error:', error);
+        }
+      );
+    } else {
+      console.warn("Geolocation not supported by this browser.");
+    }
+  });
+</script>
+{% endblock %}

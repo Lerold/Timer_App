@@ -1,0 +1,14 @@
+{% extends "base.html" %}
+{% block title %}Start Timer{% endblock %}
+
+{% block content %}
+<div class="row justify-content-center">
+  <div class="col-md-6 text-center">
+    <h1>Start a New Timer</h1>
+    <form action="{{ url_for('start_timer') }}" method="post">
+      <button type="submit" class="btn btn-success">Confirm Start New Timer</button>
+    </form>
+    <a class="btn btn-link mt-2" href="{{ url_for('index') }}">Back to Home</a>
+  </div>
+</div>
+{% endblock %}

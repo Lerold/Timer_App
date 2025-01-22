@@ -1,0 +1,73 @@
+<!doctype html>
+<html lang="en">
+  <head>
+    <meta charset="utf-8">
+    <!-- Mobile-Friendly Viewport -->
+    <meta name="viewport" content="width=device-width, initial-scale=1">
+    
+    <title>{% block title %}Timer App{% endblock %}</title>
+
+    <!-- Bootstrap 5 CSS via CDN -->
+    <link 
+      href="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/css/bootstrap.min.css" 
+      rel="stylesheet"
+    >
+
+    <!-- Favicon & App Icons -->
+    <link rel="apple-touch-icon" sizes="180x180" href="{{ url_for('static', filename='apple-touch-icon.png') }}">
+    <link rel="icon" type="image/png" sizes="32x32" href="{{ url_for('static', filename='favicon-32x32.png') }}">
+    <link rel="icon" type="image/png" sizes="16x16" href="{{ url_for('static', filename='favicon-16x16.png') }}">
+    <link rel="manifest" href="{{ url_for('static', filename='site.webmanifest') }}">
+  </head>
+  <body class="bg-light">
+
+    <nav class="navbar navbar-expand-lg navbar-dark bg-dark">
+      <div class="container-fluid">
+        <a class="navbar-brand" href="{{ url_for('index') }}">Timer App</a>
+        <button class="navbar-toggler" type="button" data-bs-toggle="collapse" data-bs-target="#navMenu" aria-controls="navMenu" aria-expanded="false" aria-label="Toggle navigation">
+          <span class="navbar-toggler-icon"></span>
+        </button>
+        
+        <div class="collapse navbar-collapse" id="navMenu">
+          <ul class="navbar-nav me-auto mb-2 mb-lg-0">
+            <!-- Example nav links -->
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('previous_timers') }}">Previous Timers</a>
+            </li>
+          </ul>
+          <ul class="navbar-nav ms-auto">
+            <li class="nav-item">
+              <a class="nav-link" href="{{ url_for('logout') }}">Logout</a>
+            </li>
+          </ul>
+        </div>
+      </div>
+    </nav>
+
+    <div class="container py-4">
+      {% block content %}{% endblock %}
+    </div>
+
+    <!-- Auto-Logout Script (optional) -->
+    <script>
+      const AUTO_LOGOUT_MS = 5 * 60 * 1000; // 5 minutes
+      let logoutTimer;
+
+      function logoutUser() {
+        window.location.href = "{{ url_for('logout') }}";
+      }
+      function resetTimer() {
+        clearTimeout(logoutTimer);
+        logoutTimer = setTimeout(logoutUser, AUTO_LOGOUT_MS);
+      }
+      window.onload = resetTimer;
+      document.onmousemove = resetTimer;
+      document.onkeydown = resetTimer;
+    </script>
+
+    <!-- Bootstrap 5 JS via CDN (for nav collapse, etc.) -->
+    <script 
+      src="https://cdn.jsdelivr.net/npm/bootstrap@5.3.0/dist/js/bootstrap.bundle.min.js">
+    </script>
+  </body>
+</html>

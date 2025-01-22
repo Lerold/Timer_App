@@ -1,0 +1,12 @@
+{% extends "base.html" %}
+{% block title %}Timer App - Home{% endblock %}
+
+{% block content %}
+<div class="text-center">
+  <h1>Welcome to the Timer App</h1>
+  <form action="{{ url_for('start_timer') }}" method="post" class="mb-3">
+    <button type="submit" class="btn btn-primary">Start New Timer</button>
+  </form>
+  <a class="btn btn-secondary" href="{{ url_for('previous_timers') }}">See List of Previously Run Timers</a>
+</div>
+{% endblock %}
